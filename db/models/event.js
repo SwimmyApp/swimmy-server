@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const {STRING, ARRAY, DATE, ENUM, INTEGER, BOOLEAN, DOUBLE} = Sequelize
-const {EMAIL, URL} = require('../custom-types')
-const addCommonFields = require('../common-fields')
+const {EMAIL, URL} = require('./helpers/custom-types')
+const addCommonFields = require('./helpers/common-fields')
 
 module.exports = sequelize =>
   sequelize.define('event', addCommonFields({
@@ -18,7 +18,7 @@ module.exports = sequelize =>
     allDay: BOOLEAN,
     allDayDate: BOOLEAN,
     capacity: INTEGER,
-  
+
     /*
      * TODO - figure out relations
      */

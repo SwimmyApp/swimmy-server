@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const {STRING, ARRAY, DATE, ENUM} = Sequelize
-const {EMAIL} = require('../custom-types')
-const addCommonFields = require('../common-fields')
+const {EMAIL} = require('./helpers/custom-types')
+const addCommonFields = require('./helpers/common-fields')
 
 module.exports = sequelize =>
   sequelize.define('person', addCommonFields({

@@ -1,13 +1,12 @@
-const fs = require('fs')
-const modelFiles = fs
-  .readDirSync('./models')
-  .filter(file => file.endsWith('.js') && file != 'index.js')
+const files = 'event person'.split(' ')
 
 module.exports = sequelize => {
   const models = {}
-  modelFiles.forEach(mf => {
-    const mn = mf.split('.')[0]
-    exports[mn] = require(`./models/${mf}`)(sequelize)
+  files.forEach(m => {
+    exports[
+      m.charAt(0).toUpperCase() + m.slice(1)
+    ] = require(`./${m}`)(sequelize)
   })
-  return {sequelize, models}
+  exports.sql = sequelize
+  return exports
 }

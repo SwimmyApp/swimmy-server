@@ -1,8 +1,11 @@
 const Sequelize = require('sequelize')
-const sequelize = new Sequelize('database', 'username', 'password')
+const sequelize = new Sequelize('postgresql://localhost')
+const models = require('./models')
+const controllers = require('./controllers')
 
-/*
- * Add model definitions
- */
+const sql = models(sequelize)
+for (let resource in controllers) {
+  sql[resource] = controllers[resource](sql)
+}
 
-module.exports = sequelize
+module.exports = sql

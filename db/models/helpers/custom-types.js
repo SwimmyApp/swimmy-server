@@ -1,3 +1,6 @@
+const Sequelize = require('sequelize')
+const {STRING} = Sequelize
+
 module.exports.EMAIL = {
   type: STRING,
   validate: {

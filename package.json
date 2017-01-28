@@ -1,0 +1,29 @@
+{
+  "name": "swimmy-server",
+  "version": "0.0.1",
+  "description": "Server for project swimmy",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha ./api/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SwimmyApp/server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SwimmyApp/server/issues"
+  },
+  "homepage": "https://github.com/SwimmyApp/server#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "pg": "^6.1.2",
+    "query-string": "^4.3.1",
+    "sequelize": "^3.30.0",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "superagent": "^3.4.0"
+  }
+}
