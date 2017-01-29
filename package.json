@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Server for project swimmy",
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./api/test"
+    "test": "./node_modules/.bin/mocha ./api/test",
+    "start": "node api/index.js"
   },
   "repository": {
     "type": "git",

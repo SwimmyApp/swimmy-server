@@ -7,8 +7,5 @@ module.exports = {
   baseUrl: process.env.BASE_URL || 'localhost:3001',
   resources: [
     'people'
-    // {
-    //   name: 'events'
-    // }
   ]
 }

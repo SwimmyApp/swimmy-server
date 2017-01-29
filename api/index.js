@@ -2,27 +2,36 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const http = require('http')
-const aepify = require('./utils/aepify')
-const osdi = require('./osdi')
+const osdi = require('../osdi-express')
 const config = require('../config')
 const log = require('debug')('swimmy:api')
+const db = require('../osdi-sequelize')
 
 /*
  * Set up global middlewares
  */
 app.use(morgan('combined'))
 
-/*
- * TODO define routes
- */
+osdi.initialize(config)
 
 app.get('/', (req, res) => {
-  res.json(aepify(config))
+  res.json(osdi.aep())
 })
 
-config.resources.forEach(r =>
-  app.use('/' + r, osdi(r))
-)
+const singulars = {
+  events: 'Event',
+  people: 'Person'
+}
+
+config.resources.forEach(r => {
+  app.use('/' + r, osdi.generate({
+    resource: r,
+    Model: db[singulars[r]],
+    querify: () => ({}),
+    restrict: () => Promise.resolve(''),
+    validate: () => ''
+  }))
+})
 
 app.use((req, res) => {
   /* TODO: Process 404 */

@@ -1,8 +1,12 @@
-const config = require('../../config')
 const setUrlParam = require('./set-url-param')
 
 const hrefify = href => ({href})
 const e = {}
+
+let config
+e.initialize = (options) => {
+  config = options
+}
 
 e.collection = (r, req, {count, docs}) => {
   const hal = {
@@ -26,7 +30,7 @@ e.collection = (r, req, {count, docs}) => {
   const embedded = []
 
   docs.forEach(d => {
-    links.push(hrefify(req.baseUrl + '/' + d.uuid))
+    links.push(hrefify(config.baseUrl + req.baseUrl + '/' + d.uuid))
     embedded.push(Object.assign(d, {
       _links: /* TODO - build links from a resource */ {}
     }))
@@ -37,6 +41,12 @@ e.collection = (r, req, {count, docs}) => {
   hal._embedded[withPrefix] = embedded
 
   return hal
+}
+
+e.object = (r, req, doc) => {
+  const _links = {}
+  // TODO - build resource links
+  return Object.assign(_links, doc)
 }
 
 module.exports = e
