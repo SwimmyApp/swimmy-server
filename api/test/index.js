@@ -3,8 +3,8 @@ const expect = require('chai').expect
 const config = require('../../config')
 const aepify = require('../../osdi-express/utils/aepify')
 
-describe('AEP', () => {
-  it('/ should fetch aep', done => {
+describe('GET /', () => {
+  it('should fetch aep', done => {
     request
       .get(config.baseUrl)
       .end((err, res) => {
@@ -16,7 +16,7 @@ describe('AEP', () => {
 })
 
 let onePersonLink
-describe('/people', () => {
+describe('GET /people', () => {
   let nextLink
 
   it('should return valid hal', done => {
@@ -50,15 +50,57 @@ describe('/people', () => {
   })
 })
 
-describe('/people/:id', () => {
+describe('GET /people/:id', () => {
   it('should return valid hal', done => {
     request
       .get(onePersonLink)
       .end((err, res) => {
         expect(res.status).to.equal(200)
         expect(res.body).to.be.an.object
-        console.log(res.body)
         done()
       })
   })
+})
+
+let newPersonId
+describe('POST /people', () => {
+  it('should return the posted person', done => {
+    request
+      .post(config.baseUrl + '/people')
+      .send(require('./person'))
+      .end((err, res) => {
+        expect(res.status).to.equal(200)
+        expect(res.body).to.be.an.object
+        newPersonId = res.body.uuid
+        done()
+      })
+  })
+
+  it('person should now be getable', done => {
+    request
+      .get(config.baseUrl + '/people/' + newPersonId)
+      .end((err, res) => {
+        expect(res.status).to.equal(200)
+        expect(res.body).to.be.an.object
+        done()
+      })
+  })
+
+  // TODO -- add validation for person and cause the api call to fail
+})
+
+describe('PUT /people/:id', () => {
+  it('should overwrite the property', done => {
+    request
+      .put(config.baseUrl + '/people/' + newPersonId)
+      .send({givenName: 'johnny'})
+      .end((err, res) => {
+        expect(res.status).to.equal(200)
+        console.log(res.body)
+        expect(res.body.givenName).to.equal('johnny')
+        done()
+      })
+  })
+
+  // TODO -- add validation for person and cause the api call to fail
 })
