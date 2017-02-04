@@ -1,5 +1,5 @@
 const Sql = require('sequelize')
-const db = require('../db')
+const db = require('../osdi-sequelize')
 const { Person, Event } = db
 const sample = require('./sample')
 
