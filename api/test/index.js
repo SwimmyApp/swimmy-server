@@ -48,12 +48,26 @@ describe('GET /people', () => {
         done()
       })
   })
+
+  it('should accept odata style queries', done => {
+    request
+      .get(nextLink)
+      .end((err, res) => {
+        expect(res.status).to.equal(200)
+        expect(res.body).to.be.an.object
+        expect(res.body).to.have.deep.property('_links.next')
+        expect(res.body).to.have.deep.property('_links.prev')
+        expect(res.body).to.have.deep.property('_links.osdi:people')
+        expect(res.body).to.have.deep.property('_embedded.osdi:people')
+        done()
+      })
+  })
 })
 
 describe('GET /people/:id', () => {
   it('should return valid hal', done => {
     request
-      .get(onePersonLink)
+      .get(config.baseUrl + '/people?')
       .end((err, res) => {
         expect(res.status).to.equal(200)
         expect(res.body).to.be.an.object
