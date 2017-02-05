@@ -72,7 +72,7 @@ module.exports = ({Model, querify, config, validate}) => {
       Object.assign(where, validation.query)
     }
 
-    const options = {where}
+    const options = Object.assign({where}, {'returning': true});
 
     if (req.attributes) {
       options.attributes = req.attributes

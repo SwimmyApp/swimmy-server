@@ -61,7 +61,7 @@ e.generate = ({resource, Model, querify, restrict, validate}) => {
     log('PUT /%s', req.params.id)
 
     db.edit(req)
-    .then(result => res.json(halify.object(resource, req, result.dataValues)))
+    .then(result => res.json(halify.object(resource, req, result[1][0].dataValues)))
     .catch(handleError(res))
   })
 
