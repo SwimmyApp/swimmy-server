@@ -72,7 +72,7 @@ module.exports = ({Model, querify, config, validate}) => {
       Object.assign(where, validation.query)
     }
 
-    const options = Object.assign({where}, {'returning': true});
+    const options = Object.assign({where}, {returning: true});
 
     if (req.attributes) {
       options.attributes = req.attributes
@@ -80,7 +80,11 @@ module.exports = ({Model, querify, config, validate}) => {
 
     Model
     .update(req.body || {}, options)
-    .then(resolve)
+    .then(([affectedCount, affectedRows]) =>
+      affectedCount == 0
+        ? reject('Nothing affected')
+        : resolve(affectedRows[0])
+    )
     .catch(reject)
   })
 

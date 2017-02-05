@@ -96,7 +96,6 @@ describe('PUT /people/:id', () => {
       .send({givenName: 'johnny'})
       .end((err, res) => {
         expect(res.status).to.equal(200)
-        console.log(res.body)
         expect(res.body.givenName).to.equal('johnny')
         done()
       })
