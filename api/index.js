@@ -5,9 +5,7 @@ const app = express()
 const http = require('http')
 const log = require('debug')('swimmy:api')
 const osdi = require('../osdi-express')
-const config = require('../config')
-const db = require('../osdi-sequelize')
-const resources = require('./resources')
+const config = require('./config')
 const login = require('./login')
 
 /*
@@ -25,13 +23,14 @@ app.get('/', (req, res) => {
 //app.use(login.app)
 //app.use(login.middleware)
 
-config.resources.forEach(r => {
-  app.use('/' + r, osdi.generate(resources[r]))
-})
+for (let r in config.resources) {
+  app.use('/' + r, osdi.generate(config.resources[r]))
+}
 
 app.use((req, res) => {
   /* TODO: Process 404 */
   log('404!')
+  res.status(404).send('404')
 })
 
 const PORT = process.env.PORT || 3001

@@ -1,3 +1,9 @@
+const db = require('../osdi-sequelize')
+
+const {
+  Person
+} = db
+
 module.exports = {
   motd: 'Welcome to Project Swimmy!',
   vendorName: 'Progressive Coders Network',
@@ -5,7 +11,5 @@ module.exports = {
   namespace: "swimmy",
   maxPageSize: 25,
   baseUrl: process.env.BASE_URL || 'localhost:3001',
-  resources: [
-    'people'
-  ]
+  resources: require('./resources')
 }

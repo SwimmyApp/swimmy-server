@@ -1,6 +1,6 @@
 const request = require('superagent')
 const expect = require('chai').expect
-const config = require('../../config')
+const config = require('../config')
 const aepify = require('../../osdi-express/utils/aepify')
 
 describe('GET /', () => {

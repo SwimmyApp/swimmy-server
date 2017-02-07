@@ -18,12 +18,12 @@ module.exports = config => {
     }
   }
 
-  config.resources.forEach(r => {
+  for (let r in config.resources) {
     aep._links[`osdi:${r}`] = {
       href: `${config.baseUrl}/${r}`,
       title: r.charAt(0).toUpperCase() + r.slice(1)
     }
-  })
+  }
 
   return aep
 }
