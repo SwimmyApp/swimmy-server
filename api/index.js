@@ -23,8 +23,9 @@ app.get('/', (req, res) => {
 //app.use(login.app)
 //app.use(login.middleware)
 
-for (let r in config.resources) {
-  app.use('/' + r, osdi.generate(config.resources[r]))
+const apps = osdi.generate(config.resources)
+for (let r in apps) {
+  app.use('/' + r, apps[r])
 }
 
 app.use((req, res) => {

@@ -1,8 +1,6 @@
 const db = require('../../osdi-sequelize')
 
 module.exports = {
-  resource: 'people',
-
   Model: db.Person,
 
   querify: req => ({}),
