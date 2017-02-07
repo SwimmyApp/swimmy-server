@@ -1,4 +1,5 @@
 const parse = require('./parse')
+const stringify = require('./stringify')
 const expect = require('chai').expect
 
 const tests = {
@@ -10,7 +11,7 @@ const tests = {
       $ne: 'John'
     }
   },
-  [`birthdate.month gt 1980`]: {
+  [`birthdate.month gt '1980'`]: {
     birthdate: {
       month: {
         $gt: '1980'
@@ -33,6 +34,14 @@ describe('parsing', () => {
   for (let test in tests) {
     it(test, () => {
       expect(parse(test)).to.deep.equal(tests[test])
+    })
+  }
+})
+
+describe('stringifying', () => {
+  for (let test in tests) {
+    it(test, () => {
+      expect(stringify(tests[test])).to.equal(test)
     })
   }
 })

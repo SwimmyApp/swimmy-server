@@ -30,3 +30,7 @@ const query = {
 console.log(stringify(query))
 // gender eq 'Male' and address.postal_code eq '10011'
 ```
+
+No support for `regex` since sequelize doesn't support it because of Regex DOS.
+
+TODO - support `near(lat, long)`

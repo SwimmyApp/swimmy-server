@@ -23,6 +23,7 @@
     "query-string": "^4.3.1",
     "sequelize": "^3.30.0",
     "to-camel-case": "^1.0.0",
+    "to-snake-case": "^1.0.0",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
