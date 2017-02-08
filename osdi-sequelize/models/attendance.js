@@ -8,6 +8,4 @@ module.exports = sequelize =>
     attended: BOOLEAN,
     actionDate: DATE,
     comment: STRING,
-    person: UUIDV4,
-    event: UUIDV4,
   }))

@@ -8,18 +8,18 @@ const halify = require('./utils/halify')
 
 module.exports = (resource, config) => {
   const {
-    Model, linkedResources, querify, restrict, validate
+    Model, singular, linkedResources, querify, restrict, validate
   } = config.resources[resource]
 
   if (!config)
     throw new Error('Must initialize osdi express with a config object before generating routes')
 
-  const log = debug(`${config.namespace}:osdi`)
+  const log = debug(`${config.namespace}:osdi:${resource}`)
   const app = express()
 
   log('Initializing %s...', resource)
 
-  const db = controller({Model, querify, config, validate})
+  const db = controller({resource, Model, linkedResources, querify, config, validate})
 
   app.get('/', binder(restrict, 'attributes'), paginate, (req, res) => {
     log('GET /')
@@ -66,14 +66,16 @@ module.exports = (resource, config) => {
 
     const linkedController = controller({
       config,
+      resource: l,
       validate: linked.validate,
       Model: linked.Model,
+      linkedResources: linked.linkedResources,
       querify: req => Object.assign(linked.querify(req), {
-          [linked.singular]: req.params.id
+          // [singular + 'Uuid']: req.params.id
         }),
     })
 
-    app.get(`/:id/${l}`, binder(restrict, 'attributes'), (req, res) => {
+    app.get(`/:id/${l}`, binder(restrict, 'attributes'), paginate, (req, res) => {
       log('GET /%s/%s', req.params.id, l)
 
       linkedController.all(req)

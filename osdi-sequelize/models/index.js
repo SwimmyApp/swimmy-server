@@ -1,4 +1,4 @@
-const files = 'event person'.split(' ')
+const files = 'event person attendance'.split(' ')
 
 module.exports = sequelize => {
   const models = {}

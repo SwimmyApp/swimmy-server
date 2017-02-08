@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize')
-const {STRING, ARRAY, DATE, ENUM, INTEGER, BOOLEAN, DOUBLE} = Sequelize
+const {
+  STRING, ARRAY, DATE, ENUM, INTEGER, BOOLEAN, DOUBLE, UUIDV4
+} = Sequelize
 const {EMAIL, URL} = require('./helpers/custom-types')
 const addCommonFields = require('./helpers/common-fields')
 

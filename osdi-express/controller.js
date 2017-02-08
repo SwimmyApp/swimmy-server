@@ -1,4 +1,4 @@
-module.exports = ({Model, querify, config, validate}) => {
+module.exports = ({resource, Model, linkedResources, querify, config, validate}) => {
   const e = {}
 
   /*
@@ -43,6 +43,15 @@ module.exports = ({Model, querify, config, validate}) => {
   /*
    * Controller for POST /
    */
+
+  const ilinkto = Object.keys(config.resources).filter(r =>
+    config.resources[r].linkedResources.includes(resource)
+  )
+
+  const options = {
+    include: ilinkto.map(l => config.resources[l].Model)
+  }
+
   e.create = (req) => new Promise((resolve, reject) => {
     const validation = validate(req)
 
@@ -50,8 +59,13 @@ module.exports = ({Model, querify, config, validate}) => {
       res.status(400).json(osdiError(validation.error))
     }
 
+    if (Object.keys(options).length > 0) {
+      console.log(req.body)
+      console.log(options)
+    }
+
     Model
-    .create(req.body)
+    .create(req.body, options)
     .then(resolve)
     .catch(reject)
   })
