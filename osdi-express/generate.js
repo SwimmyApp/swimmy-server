@@ -14,10 +14,10 @@ module.exports = (resource, config) => {
   if (!config)
     throw new Error('Must initialize osdi express with a config object before generating routes')
 
-  const log = debug(`swimmy:${config.namespace}`)
+  const log = debug(`${config.namespace}:osdi`)
   const app = express()
 
-  log('Initializing...')
+  log('Initializing %s...', resource)
 
   const db = controller({Model, querify, config, validate})
 
@@ -36,11 +36,6 @@ module.exports = (resource, config) => {
     .then(result => res.json(halify.object(resource, req, result.dataValues)))
     .catch(handleError(res))
   })
-
-  /*app.get('/:id/:link', restrict[r].link, (req, res) => {
-    db[r].link(req)
-    .then(result => res.json(halify.resource(r, req, result)))
-  })*/
 
   app.post('/', binder(restrict, 'attributes'),  (req, res) => {
     log('POST /')
@@ -64,6 +59,27 @@ module.exports = (resource, config) => {
     db.remove(req)
     .then(numDeleted => res.json({notice: `${numDeleted} rows were deleted`}))
     .catch(handleError(res))
+  })
+
+  config.resources[resource].linkedResources.forEach(l => {
+    const linked = config.resources[l]
+
+    const linkedController = controller({
+      config,
+      validate: linked.validate,
+      Model: linked.Model,
+      querify: req => Object.assign(linked.querify(req), {
+          [linked.singular]: req.params.id
+        }),
+    })
+
+    app.get(`/:id/${l}`, binder(restrict, 'attributes'), (req, res) => {
+      log('GET /%s/%s', req.params.id, l)
+
+      linkedController.all(req)
+      .then(result => res.json(halify.collection(l, req, result)))
+      .catch(handleError(res))
+    })
   })
 
   return app

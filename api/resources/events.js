@@ -1,8 +1,8 @@
 const db = require('../../osdi-sequelize')
 
 module.exports = {
-  resource: 'events',
-
+  singular: 'event',
+  linkedResources: [],
   Model: db.Event,
 
   querify: req => ({}),

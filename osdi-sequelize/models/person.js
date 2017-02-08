@@ -34,7 +34,7 @@ module.exports = sequelize =>
      */
 
     /*
-     * Non-OSDI fields
+     * Non-OSDI fields, not exposed
      */
     salt: STRING,
     hash: STRING
